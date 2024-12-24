@@ -9,10 +9,8 @@ import (
 
 func main() {
 	cfg := config.MustLoad()
-
 	bot := bp.MustLoad(cfg)
 	cacheClient := cache.MustLoad(cfg)
-
 	ctx := context.BuildBaseContext(bot.Bot, cacheClient)
 
 	// permanently recovers

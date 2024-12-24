@@ -2,6 +2,11 @@ package ui
 
 import api "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 
+type CallbackButton struct {
+	Title string
+	Data  string
+}
+
 func CreatePeopleListKeyboard(names []string) api.InlineKeyboardMarkup {
 	var keyboardRows [][]api.InlineKeyboardButton
 
