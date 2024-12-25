@@ -53,5 +53,15 @@ func handleRoundCommand(ctx *context.RequestContext) {
 		if err != nil {
 			log.Println(fmt.Sprintf("Error sending SantaResponse to %s", santa.Name), err)
 		}
+
+		var member db.Member
+		_ = ctx.DbClient.Where("tg_id = ?", recipient.TgID).First(&member)
+		if member.FileID != "" {
+			photo := api.NewPhoto(santa.TgID, api.FileID(member.FileID))
+			_, err := ctx.Bot.Send(photo)
+			if err != nil {
+				log.Println(fmt.Sprintf("Error sending PhotoResponse to %s", santa.Name), err)
+			}
+		}
 	}
 }

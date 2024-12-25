@@ -8,10 +8,11 @@ import (
 )
 
 type Member struct {
-	ID   uint   `gorm:"primaryKey"`
-	Name string `gorm:"not null"`
-	Wish string
-	TgID int64
+	ID     uint   `gorm:"primaryKey"`
+	Name   string `gorm:"not null"`
+	Wish   string
+	TgID   int64
+	FileID string `gorm:"default:''"`
 }
 
 func MustLoad(cfg *config.Config) *gorm.DB {
