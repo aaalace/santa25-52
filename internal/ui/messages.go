@@ -1,6 +1,6 @@
 package ui
 
-const StartPageMessage string = "Ты кто будешь братан?"
+const StartPageMessage string = "Здарова, я фиксанулся, больше косяков нема (наверное). А ты бля кто вообще?"
 const StartPageEmpty string = "Нету челикав чет"
-const AskForWishes string = "Напиши че хочешь от другого челика (если не придумал(а), отправь точку)"
-const WaitingForLastMember string = "Твой виш записан, бот разошлет инфу о твоем челике, когда все регнутся"
+const AskForWishes string = "Напиши че хочешь получить от другого челика (если не придумал(а), отправь точку)"
+const WaitingForLastMember string = "Твой виш записан, бот пришлет инфу о твоем челике, когда все регнутся"

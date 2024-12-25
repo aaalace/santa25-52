@@ -1,21 +1,21 @@
 package context
 
 import (
-	"github.com/go-redis/redis/v8"
 	api "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"gorm.io/gorm"
 )
 
 type RequestContext struct {
-	Bot         *api.BotAPI
-	CacheClient *redis.Client
-	Request     *api.Update
+	Bot      *api.BotAPI
+	DbClient *gorm.DB
+	Request  *api.Update
 }
 
-func BuildBaseContext(bot *api.BotAPI, cacheClient *redis.Client) *RequestContext {
+func BuildBaseContext(bot *api.BotAPI, dbClient *gorm.DB) *RequestContext {
 	return &RequestContext{
-		Bot:         bot,
-		CacheClient: cacheClient,
-		Request:     nil,
+		Bot:      bot,
+		DbClient: dbClient,
+		Request:  nil,
 	}
 }
 

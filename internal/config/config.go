@@ -6,9 +6,12 @@ import (
 )
 
 type Config struct {
-	BotToken  string
-	RedisHost string
-	RedisPort string
+	BotToken   string
+	DbHost     string
+	DbPort     string
+	DbUser     string
+	DbPassword string
+	DbName     string
 }
 
 func MustLoad() *Config {
@@ -17,8 +20,11 @@ func MustLoad() *Config {
 	}
 
 	return &Config{
-		BotToken:  os.Getenv("BOT_TOKEN"),
-		RedisHost: os.Getenv("REDIS_HOST"),
-		RedisPort: os.Getenv("REDIS_PORT"),
+		BotToken:   os.Getenv("BOT_TOKEN"),
+		DbHost:     os.Getenv("DB_HOST"),
+		DbPort:     os.Getenv("DB_PORT"),
+		DbUser:     os.Getenv("DB_USER"),
+		DbPassword: os.Getenv("DB_PASSWORD"),
+		DbName:     os.Getenv("DB_NAME"),
 	}
 }

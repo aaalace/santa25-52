@@ -1,29 +1,31 @@
 package game
 
 import (
-	"github.com/go-redis/redis/v8"
+	"gorm.io/gorm"
 	"math/rand"
-	"santa25-52/internal/cache"
+	"santa25-52/internal/db"
 	"time"
 )
 
 type Manager struct {
-	CacheClient *redis.Client
+	DbClient *gorm.DB
 }
 
-func (m *Manager) BuildSantaMap() map[string]string {
-	names, _ := m.CacheClient.LRange(m.CacheClient.Context(), cache.TeamsDefaultKey, 0, -1).Result()
+func (m *Manager) BuildSantaMap() map[db.Member]db.Member {
+	// santa:recipient
+	santaMap := make(map[db.Member]db.Member)
 
-	available := append([]string(nil), names...)
-	santaMap := make(map[string]string)
+	var members []db.Member
+	_ = m.DbClient.Find(&members)
 
 	randSource := rand.NewSource(time.Now().UnixNano())
 	randGen := rand.New(randSource)
 
-	for _, santa := range names {
-		var candidates []string
-		for _, candidate := range available {
-			if candidate != santa {
+	availableMembers := append([]db.Member(nil), members...)
+	for _, santa := range members {
+		var candidates []db.Member
+		for _, candidate := range availableMembers {
+			if candidate.ID != santa.ID {
 				candidates = append(candidates, candidate)
 			}
 		}
@@ -32,10 +34,9 @@ func (m *Manager) BuildSantaMap() map[string]string {
 		recipient := candidates[recipientIndex]
 
 		santaMap[santa] = recipient
-
-		for i, name := range available {
+		for i, name := range availableMembers {
 			if name == recipient {
-				available = append(available[:i], available[i+1:]...)
+				availableMembers = append(availableMembers[:i], availableMembers[i+1:]...)
 				break
 			}
 		}
