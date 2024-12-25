@@ -15,10 +15,26 @@ func HandleCommand(ctx *context.RequestContext) {
 	switch ctx.Request.Message.Command() {
 	case "start":
 		handleStartCommand(ctx)
+	case os.Getenv("NOTIFY_ALL_MEMBERS"):
+		handleNotifyCommand(ctx)
 	case os.Getenv("START_ROUND"):
 		handleRoundCommand(ctx)
 	default:
 		log.Println("What the fuck is this user doing with commands")
+	}
+}
+
+func handleNotifyCommand(ctx *context.RequestContext) {
+	var members []db.Member
+	_ = ctx.DbClient.Find(&members)
+
+	notification := os.Getenv("NOTIFICATION")
+	for _, member := range members {
+		msg := api.NewMessage(member.TgID, notification)
+		_, err := ctx.Bot.Send(msg)
+		if err != nil {
+			log.Println("Error sending NOTIFICATION", err)
+		}
 	}
 }
 

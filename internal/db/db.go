@@ -29,10 +29,5 @@ func MustLoad(cfg *config.Config) *gorm.DB {
 		panic("Failed to connect to database")
 	}
 
-	err = db.AutoMigrate(&Member{})
-	if err != nil {
-		panic("Failed to auto-migrate")
-	}
-
 	return db
 }
